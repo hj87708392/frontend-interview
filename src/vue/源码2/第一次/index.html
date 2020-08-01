@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="root">
+        <div>
+            <div>
+                <p>{{name}} --- {{message}}</p>
+            </div>
+        </div>
+        <p>{{name}}</p>
+        <p>{{message}}</p>
+    </div 
+</body>
+
+</html>
+
+<script>
+    //1 拿到模板
+    let rootNode=document.querySelector("#root")
+    
+    //2 拿到数据
+    let data={
+        name:'黄金学习VUE源码',
+        message:"第二次学习"
+    }
+    
+    //3 将数据与模板结合,得到的是HTML元素和dom元素,
+    //DOM转化为对象=>在转化为虚拟dom=>真实的DOM
+    console.log(rootNode)
+    let regKuohao = /\{\{(.+?)\}\}/g; // 匹配{{}}括号
+    function compiler(template,data){
+        // 把 template 的子元素带有 {{ }} 的给处理一下
+        let childNodes = template.childNodes; // 子元素
+             for(let i=0; i < childNodes.length; i++ ){
+                 let type = childNodes[i].nodeType; //节点类型 1 元素  3 文本节点
+                 if( type === 3){
+                     // 文本节点，可以判断里面是否有 {{}} 插值
+                     let txt = childNodes[i].nodeValue; // 该属性只有文本节点才有意义
+                     //console.log(txt)
+    
+                     // 有没有双括号？ //正则表达式
+                     txt = txt.replace(regKuohao,function( target , g1 ){ // relace 使用正则匹配一次， 函数就会被调用一次
+                        // 函数的第 0 个参数，表示匹配到的内容
+                        // 函数的第 n 个参数，表示正则中的第n 组
+                      //  console.log(target)   
+                        //console.log(g1)                                
+                         g1 = g1.trim();
+                         //将 {{ xxx }} 用这个 值替换
+                         return data[g1]
+                     })
+                     console.log(txt)
+    
+                     // 注意 txt 现在和 DOM元素 是没有关系的
+                     childNodes[i].nodeValue = txt;
+    
+    
+                 }else if( type === 1){
+                     // 元素，有没有子元素？是否需要将其子元素 进行判断是否插值
+                     compiler(childNodes[i], data)
+                 }
+             }
+    }
+    //我们此时是没有生成新的Templata,所以这里看到的是直接在页面上就更新了数据,因为dom是应用类型,这样搞模板就没有了
+    let copyNode=rootNode.cloneNode(true)
+    compiler(copyNode,data)
+    console.log(copyNode)
+
+    //4.放到页面中
+     
+    root.parentNode.replaceChild(copyNode,root)
+
+    //上面的思路有很大的问题 ,
+    //1vue使用虚拟dom,
+    //2只考虑了单数据的{{name}},vue中大量的使用层级{{child.name.firstName}}
+    //3.代码没有整合
+
+
+    </script>

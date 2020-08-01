@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		html *{
+			padding: 0;
+			margin: 0;
+		}
+		.layout  div{
+			min-height: 100px;
+		
+		}
+		.content-left{
+			float: left;
+			width: 200px;
+			background-color: red;
+		}
+		.content-right{
+			float: right;
+			width: 200px;
+			background-color: blue;
+		}
+		.content-center{
+			background-color: pink;
+		}
+	</style>
+</head>
+<body>
+	<section class="layout float"> 
+		<div>
+			<div class="content-left">左边</div>
+			<div class="content-right">右边</div>
+			<div class="content-center">
+				<h1>浮动解决:三栏布局中间部分</h1>
+				
+			</div>
+		</div>
+	</section>
+</body>
+</html>
