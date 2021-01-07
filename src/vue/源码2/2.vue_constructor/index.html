@@ -10,32 +10,19 @@
 <body>
     <div id="root">
         <div>
-            <!-- <h1>{{title}}</h1> -->
             <div>
-                <p>{{obj.name}} --- {{obj.message}}</p>
+                <p>{{name}} --- {{message}}</p>
             </div>
         </div>
-        <!-- <p>{{title}}</p>
-        <p>{{title}}</p> -->
+        <p>{{name}}</p>
+        <p>{{message}}</p>
     </div 
 </body>
 
 </html>
 
 <script>
-    //要解决''xx.yy.zz'
-    //就是要用字符串路径来访问对象的成员
- function deepProps(data,key){
-        //console.log(data)
-        let keyValArr=key.split('.')//["obj", "name"]  ["obj", "message"]
-        let returnValue= keyValArr.reduce((pre, cur, index, arr) => {
-             return pre[cur]
-         }, data)
-         console.log(returnValue)//黄金学习VUE源码
-         return  returnValue
-    }
   
-
   class JGVue{
     constructor(option){
         this._el = option.el;
@@ -81,10 +68,9 @@
                 // 函数的第 n 个参数，表示正则中的第n 组
                 //  console.log(target)   
                 //console.log(g1)                                
-                    let key = g1.trim();
+                    g1 = g1.trim();
                     //将 {{ xxx }} 用这个 值替换
-                    let value=deepProps(data,key)
-                    return  value
+                    return data[g1]
                 })
                // console.log(txt)
 
@@ -98,20 +84,18 @@
             }
         }
     }
-    
+
     update(realHTMLDOM,el){
         this._parentNode.replaceChild(realHTMLDOM,el)
     }
   }  
-  
+
+
   let vm = new JGVue({
         el: '#root',
         data: {
-            title:"测试obj嵌套熟悉",
-            obj:{
-                name:'黄金学习VUE源码',
-                message:"第二次学习"
-            }
+            name:'黄金学习VUE源码',
+            message:"第二次学习"
         },
     })
 

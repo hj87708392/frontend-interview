@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="root" class="1111">
+        <div>
+            <div>
+                <h1 id='123' class="456">虚拟DOM</h1>
+                <h1 title='woshih1'><p><span>多层嵌套</span></p></h1>
+            </div>
+            <ul id='123' class="456" title='woshih1'>
+                <li title='woshih1'>1</li>
+                <li id='11' class="456">11</li>
+                <li id='111' class="456">111</li>
+                <li id='1111' class="456">1111</li>
+                <li id='11111' class="456">11111</li>
+                <li id='111111' class="456">111111</li>
+            </ul>
+        </div>
+    </div 
+</body>
+</html>
+<script>
+    class VNode{
+        constructor(tar,data,value,type){
+            this._tar=tar && tar.toLowerCase();
+            this._data=data;
+            this._value=value;
+            this._type=type;
+            this.children=[];
+        }
+        appendChild(vnode){
+            this.children.push(vnode)
+        }
+
+        //使用递归来遍历DOM元素,生成虚拟DOM
+        
+    }
+
+   function getVNode(node){
+      
+        let nodeType=node.nodeType;
+        let _vnode=null;
+
+        //元素
+        if(nodeType===1){
+          //获去元素名称
+          let nodeName=node.nodeName
+         // console.log(nodeName)
+          //获取元素属性
+          let arrts=node.attributes;
+          let arrtsObj={}
+          //console.log(arrts)
+          for (let i = 0; i < arrts.length; i++) {
+              arrtsObj[arrts[i].nodeName]=arrts[i].nodeValue//{id: "root", class: "1111"}
+          }
+         _vnode=new VNode(nodeName,arrtsObj,undefined,nodeType)
+       
+         //考虑到node的子元素
+         let childNodes=node.childNodes;
+         for (let index = 0; index < childNodes.length; index++) {
+             _vnode.appendChild(getVNode(childNodes[index]))
+         }
+        }
+        //文本
+        else if(nodeType===3){
+            _vnode=new VNode(undefined,undefined,node.nodeValue,nodeType)
+          
+        }
+
+        return _vnode
+       
+    }
+    let root=document.querySelector("#root")
+    let vroot=getVNode(root)
+
+    console.log(vroot)
+
+    //将虚拟dom转义成真实的DOM
+
+</script>
