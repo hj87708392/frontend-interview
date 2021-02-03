@@ -4,7 +4,7 @@
             console.log(this instanceof String);
 };
        
-        a.call('littleLuke');
+ a.call('littleLuke');
 
  
   
