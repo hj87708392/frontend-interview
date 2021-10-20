@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>双飞燕布局--flex</title>
+	<style>
+		html * {
+			padding: 0;
+			margin: 0;
+		}
+
+		.layout {
+			min-height: 100px;
+			display: flex;
+
+		}
+
+		.content-left {
+			flex: 0 1 auto;
+			width: 200px;
+			background-color: red;
+		}
+
+		.content-right {
+			flex: 0 1 auto;
+			width: 200px;
+			background-color: blue;
+		}
+
+		.content-center {
+			flex: 1;
+			background-color: pink;
+		}
+	</style>
+</head>
+
+<body>
+	<section>
+		<div class="layout">
+			<div class="content-center">
+				<h1>浮动解决:三栏布局中间部分</h1>
+			</div>
+			<div class="content-left">左边</div>
+			<div class="content-right">右边</div>
+		</div>
+	</section>
+</body>
+
+</html>

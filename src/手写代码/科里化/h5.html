@@ -1,0 +1,31 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+function add(){ 
+    debugger
+    var args=[...arguments] 
+    var _fn= function(){ 
+        var _args=[...arguments] 
+        if(_args.length==0){
+             return args.reduce((a,b)=>{ return a+b },0)
+         }else{ 
+                args=args.concat(_args)
+                return _fn
+             }
+         } 
+    return _fn 
+}
+   
+console.log(add(1)())
+console.log(add(1)(2)())
+console.log(add(1,2)(2,3,4)())
+
+
+
+</script>
+</body>
+</html>

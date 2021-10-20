@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="root">
+        <div>
+            <div>
+                <p>{{name}} --- {{message}}</p>
+            </div>
+        </div>
+        <p>{{name}}</p>
+        <p>{{message}}</p>
+    </div 
+</body>
+
+</html>
+
+<script>
+  
+  class JGVue{
+    constructor(option){
+        this._el = option.el;
+        this.$data = option.data;
+        this.$option = option;
+        this.$_el = this._templateDOM=document.querySelector(this._el);
+        let realHTMLDOM=this._templateDOM.cloneNode(true)
+       // console.log(realHTMLDOM)
+
+        //存在父元素
+         this._parentNode=this._templateDOM.parentNode
+       
+        //渲染
+        this.render(realHTMLDOM,this.$data)
+        //编译 将模板与数据结合得到真正的DOM元素
+       // this.compiler(realHTMLDOM,data)
+        //将DOM的元素放到页面中
+        this.update(realHTMLDOM, this.$_el)
+    }
+    //将模板结合数据得到HTML加载数据中
+    render(realHTMLDOM,data){
+        this.compiler(realHTMLDOM,data)
+    }
+
+    compiler(realHTMLDOM,data){
+        this.compiler_html(realHTMLDOM,data)
+    }
+
+    compiler_html(realHTMLDOM,data){
+        let regKuohao = /\{\{(.+?)\}\}/g;
+       // console.log(realHTMLDOM)
+        let childNodes = realHTMLDOM.childNodes; // 子元素
+        for(let i=0; i < childNodes.length; i++ ){
+            let type = childNodes[i].nodeType; //节点类型 1 元素  3 文本节点
+            if( type === 3){
+                // 文本节点，可以判断里面是否有 {{}} 插值
+                let txt = childNodes[i].nodeValue; // 该属性只有文本节点才有意义
+                //console.log(txt)
+
+                // 有没有双括号？ //正则表达式
+                txt = txt.replace(regKuohao,function( target , g1 ){ // relace 使用正则匹配一次， 函数就会被调用一次
+                // 函数的第 0 个参数，表示匹配到的内容
+                // 函数的第 n 个参数，表示正则中的第n 组
+                //  console.log(target)   
+                //console.log(g1)                                
+                    g1 = g1.trim();
+                    //将 {{ xxx }} 用这个 值替换
+                    return data[g1]
+                })
+               // console.log(txt)
+
+                // 注意 txt 现在和 DOM元素 是没有关系的
+                childNodes[i].nodeValue = txt;
+
+
+            }else if( type === 1){
+                // 元素，有没有子元素？是否需要将其子元素 进行判断是否插值
+                this.compiler_html(childNodes[i], data)
+            }
+        }
+    }
+
+    update(realHTMLDOM,el){
+        this._parentNode.replaceChild(realHTMLDOM,el)
+    }
+  }  
+
+
+  let vm = new JGVue({
+        el: '#root',
+        data: {
+            name:'黄金学习VUE源码',
+            message:"第二次学习"
+        },
+    })
+
+</script>

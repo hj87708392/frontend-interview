@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>双飞燕布局-定位</title>
+	<style>
+		html * {
+			padding: 0;
+			margin: 0;
+		}
+
+		.layout {
+			height: 100px;
+			position: relative;
+		}
+
+		.content-left {
+			position: absolute;
+			left: 0;
+			width: 200px;
+			background-color: red;
+		}
+
+		.content-right {
+			position: absolute;
+			right: 0;
+			width: 200px;
+			background-color: blue;
+		}
+
+		.content-center {
+			position: absolute;
+			left: 200px;
+			right: 200px;
+			background-color: pink;
+		}
+	</style>
+</head>
+
+<body>
+	<section class="layout float">
+		<div class="content-center">
+			<div>浮动解决:三栏布局中间部分</div>
+		</div>
+		<div class="content-left">左边</div>
+		<div class="content-right">右边</div>
+
+	</section>
+</body>
+
+</html>
